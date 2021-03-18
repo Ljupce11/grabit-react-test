@@ -16,6 +16,11 @@ export interface Bucket {
 
 export interface BucketObject {
   name: string
-  date: string
   size: string
+  last_modified: string
+}
+
+export interface ShowDeleteObjectModal {
+  show: boolean,
+  object: BucketObject | null
 }
