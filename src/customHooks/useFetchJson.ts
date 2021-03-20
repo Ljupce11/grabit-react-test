@@ -10,17 +10,19 @@ export const useFetchJson = (setData: (data: any) => void, shouldFetch: boolean,
     const getData = async () => {
       setShouldFetch(false)
       const data: any = await fetchGetJson(endpoint)
-      if (data.message) {
-        setErrorMessage(data.message)
-      } else {
-        if (endpoint.includes('locations')) {
-          setData(data.locations)
-        } else if (endpoint.includes('objects')) {
-          setData(data.objects)
-        } else if (endpoint.includes('buckets/')) {
-          setData(data.bucket)
-        } else if (endpoint.includes('buckets')) {
-          setData(data.buckets)
+      if (data) {
+        if (data.message) {
+          setErrorMessage(data.message)
+        } else {
+          if (endpoint.includes('locations')) {
+            setData(data.locations)
+          } else if (endpoint.includes('objects')) {
+            setData(data.objects)
+          } else if (endpoint.includes('buckets/')) {
+            setData(data.bucket)
+          } else if (endpoint.includes('buckets')) {
+            setData(data.buckets)
+          }
         }
       }
     }

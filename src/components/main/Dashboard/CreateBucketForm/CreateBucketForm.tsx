@@ -24,6 +24,7 @@ export const CreateBucketForm: React.FC<Props> = ({ formData, onSubmitHandler, o
           <label>Name</label>
           <input
             required
+            autoFocus
             type="text"
             name="name"
             className="form-control"

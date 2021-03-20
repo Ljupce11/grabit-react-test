@@ -22,7 +22,9 @@ export const BucketDetailsFiles: React.FC<Props> = ({ bucket, bucketObjects, upd
     formData.append('file', file)
 
     const res: any = await fetchPostFile(`buckets/${bucket.id}/objects`, formData)
-    document.querySelector("input")!.value = "";
+    if (document.querySelector("input")) {
+      document.querySelector("input")!.value = "";
+    }
 
     if (res.message) {
       setErrorMessage(res.message)
