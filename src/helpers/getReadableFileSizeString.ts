@@ -7,5 +7,5 @@ export const getReadableFileSizeString = (fileSizeInBytes: number) => {
     i++;
   } while (fileSizeInBytes > 1024);
 
-  return Math.max(fileSizeInBytes, 0.1).toFixed(1) + byteUnits[i];
+  return Math.max(fileSizeInBytes, 0).toFixed(1) + byteUnits[i];
 };

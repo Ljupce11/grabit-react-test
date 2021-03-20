@@ -6,6 +6,8 @@ export const calculateBucketStorageSize = (bucketObjects: BucketObject[]) => {
     bucketObjects.forEach(object => {
       totalStorageSize += Number(object.size)
     })
+  } else {
+    totalStorageSize = 0
   }
   return totalStorageSize
 }
