@@ -1,15 +1,16 @@
 import React from 'react';
-import { Alert, Button, Modal } from 'react-bootstrap';
+import { Alert, Button, Modal, Spinner } from 'react-bootstrap';
 
 interface Props {
   show: boolean
   itemType: string
   onHide: () => void
+  isLoading: boolean
   errorMessage: string
   onDeleteHandler: () => void
 }
 
-export const DeleteConfirmationModal: React.FC<Props> = ({ onHide, onDeleteHandler, itemType, show, errorMessage }) => {
+export const DeleteConfirmationModal: React.FC<Props> = ({ onHide, onDeleteHandler, itemType, show, errorMessage, isLoading }) => {
   return (
     <Modal
       centered
@@ -31,7 +32,13 @@ export const DeleteConfirmationModal: React.FC<Props> = ({ onHide, onDeleteHandl
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={onHide} variant="secondary">Cancel</Button>
-        <Button onClick={onDeleteHandler} variant="danger">Delete</Button>
+        <Button disabled={isLoading} onClick={onDeleteHandler} variant="danger">
+          {
+            isLoading &&
+            <Spinner size="sm" className="mr-2" animation="border" />
+          }
+          Delete
+        </Button>
       </Modal.Footer>
     </Modal>
   )

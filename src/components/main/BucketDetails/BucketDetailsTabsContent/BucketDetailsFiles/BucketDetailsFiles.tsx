@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import { Spinner } from 'react-bootstrap';
 
 import { fetchPostFile } from '../../../../../services/services';
 import { Bucket, BucketObject } from '../../../../../interfaces/interfaces';
@@ -15,21 +16,28 @@ interface Props {
 export const BucketDetailsFiles: React.FC<Props> = ({ bucket, bucketObjects, updateBucketObjects, showDeleteObjectModal }) => {
   const { setErrorMessage } = useContext(ErrorMessageContext)
   const [checked, setChecked] = useState<number | null>(null)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const onChangeHandler = async (e: any) => {
-    const file = e.target.files[0]
-    const formData = new FormData()
-    formData.append('file', file)
+    if (!isLoading) {
+      const file = e.target.files[0]
+      const formData = new FormData()
+      formData.append('file', file)
 
-    const res: any = await fetchPostFile(`buckets/${bucket.id}/objects`, formData)
-    if (document.querySelector("input")) {
-      document.querySelector("input")!.value = "";
-    }
+      setIsLoading(true)
+      const res: any = await fetchPostFile(`buckets/${bucket.id}/objects`, formData)
+      if (res) {
+        setIsLoading(false)
+        if (document.querySelector("input")) {
+          document.querySelector("input")!.value = "";
+        }
 
-    if (res.message) {
-      setErrorMessage(res.message)
-    } else {
-      updateBucketObjects()
+        if (res.message) {
+          setErrorMessage(res.message)
+        } else {
+          updateBucketObjects()
+        }
+      }
     }
   }
 
@@ -50,7 +58,11 @@ export const BucketDetailsFiles: React.FC<Props> = ({ bucket, bucketObjects, upd
             onClick={showDeleteModalHandler}
             className="btn btn-outline-danger mr-2">Delete Object
           </button>
-          <label htmlFor="file-upload" className="btn btn-outline-primary m-0">
+          <label htmlFor="file-upload" className={`btn btn-outline-primary m-0 ${isLoading ? 'disabled' : ''}`}>
+            {
+              isLoading &&
+              <Spinner size="sm" className="mr-2" animation="border" />
+            }
             Upload Object
           </label>
           <input onChange={(e) => onChangeHandler(e)} id="file-upload" type="file" className="d-none" />

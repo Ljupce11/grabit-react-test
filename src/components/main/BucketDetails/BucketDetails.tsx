@@ -10,8 +10,9 @@ import { useFetchJson as useFetchBucket, useFetchJson as useFetchBucketObjects }
 
 export const BucketDetails: React.FC = () => {
   const params: { bucketId?: string } = useParams()
-  const [errorMessage, setErrorMessage] = useState<string>('')
   const [activeTab, setActiveTab] = useState<number>(0)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [errorMessage, setErrorMessage] = useState<string>('')
   const [bucketObjects, setBucketObjects] = useState<BucketObject[]>([])
   const [shouldFetchBucketnName, setShouldFetchBucketName] = useState<boolean>(true)
   const [shouldFetchBucketObjects, setShouldFetchBucketObjects] = useState<boolean>(true)
@@ -24,12 +25,16 @@ export const BucketDetails: React.FC = () => {
 
   const onDeleteObjectHandler = async () => {
     if (showDeleteObjectModal.object?.name) {
+      setIsLoading(true)
       const res: any = await fetchDelete(`buckets/${bucket.id}/objects/${showDeleteObjectModal.object.name}`)
-      if (res.status === 200) {
-        setShowDeleteObjectModal({ show: false, object: null })
-        setShouldFetchBucketObjects(true)
-      } else {
-        setErrorMessage('Something went wrong, please try again!')
+      if (res) {
+        setIsLoading(false)
+        if (res.status === 200) {
+          setShowDeleteObjectModal({ show: false, object: null })
+          setShouldFetchBucketObjects(true)
+        } else {
+          setErrorMessage('Something went wrong, please try again!')
+        }
       }
     }
   }
@@ -40,6 +45,7 @@ export const BucketDetails: React.FC = () => {
         showDeleteObjectModal &&
         <DeleteConfirmationModal
           itemType="object"
+          isLoading={isLoading}
           errorMessage={errorMessage}
           show={showDeleteObjectModal.show}
           onDeleteHandler={onDeleteObjectHandler}

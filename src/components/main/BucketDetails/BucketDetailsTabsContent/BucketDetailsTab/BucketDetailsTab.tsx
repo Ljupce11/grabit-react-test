@@ -14,17 +14,22 @@ interface Props {
 
 export const BucketDetailsTab: React.FC<Props> = ({ bucket, bucketObjects }) => {
   const history = useHistory()
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const [errorMessage, setErrorMessage] = useState<string>('')
   const [showDeleteBucketModal, setShowDeleteBucketModal] = useState<boolean>(false)
 
   const bucketStorageSize = getReadableFileSizeString(calculateBucketStorageSize(bucketObjects))
 
   const onDeleteHandler = async () => {
+    setIsLoading(true)
     const res = await fetchDelete(`/buckets/${bucket.id}`)
-    if (res.status === 200) {
-      history.push('/')
-    } else {
-      setErrorMessage('Something went wrong, please try again!')
+    if (res) {
+      setIsLoading(false)
+      if (res.status === 200) {
+        history.push('/')
+      } else {
+        setErrorMessage('Something went wrong, please try again!')
+      }
     }
   }
 
@@ -34,6 +39,7 @@ export const BucketDetailsTab: React.FC<Props> = ({ bucket, bucketObjects }) => 
         showDeleteBucketModal &&
         <DeleteConfirmationModal
           itemType={"bucket"}
+          isLoading={isLoading}
           errorMessage={errorMessage}
           show={showDeleteBucketModal}
           onDeleteHandler={onDeleteHandler}
@@ -45,7 +51,8 @@ export const BucketDetailsTab: React.FC<Props> = ({ bucket, bucketObjects }) => 
       <button
         type="button"
         className="btn btn-danger"
-        onClick={() => setShowDeleteBucketModal(true)}>Delete Bucket
+        onClick={() => setShowDeleteBucketModal(true)}>
+        Delete Bucket
       </button>
     </React.Fragment>
   )
