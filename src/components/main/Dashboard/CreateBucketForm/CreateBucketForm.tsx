@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Alert } from 'react-bootstrap';
-import { useFetchJson } from '../../../../customHooks/useFetchJson';
 
 import { BucketFormData, Location } from '../../../../interfaces/interfaces';
+import { useFetchJson as fetchLocations } from '../../../../customHooks/useFetchJson';
 
 interface Props {
   formData: BucketFormData
@@ -15,7 +15,7 @@ export const CreateBucketForm: React.FC<Props> = ({ formData, onSubmitHandler, o
   const [locations, setLocations] = useState<Location[]>([])
   const [shouldFetch, setShouldFetch] = useState<boolean>(true)
 
-  useFetchJson((data) => setLocations(data), shouldFetch, (value) => setShouldFetch(value), 'locations')
+  fetchLocations((data) => setLocations(data), shouldFetch, (value) => setShouldFetch(value), 'locations')
 
   return (
     <React.Fragment>

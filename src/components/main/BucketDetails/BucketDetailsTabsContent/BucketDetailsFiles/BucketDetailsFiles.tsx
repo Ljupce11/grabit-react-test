@@ -18,6 +18,7 @@ export const BucketDetailsFiles: React.FC<Props> = ({ bucket, bucketObjects, upd
   const [checked, setChecked] = useState<number | null>(null)
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
+  // Upload selected file when file input onChange is triggered
   const onChangeHandler = async (e: any) => {
     if (!isLoading) {
       const file = e.target.files[0]
@@ -58,6 +59,7 @@ export const BucketDetailsFiles: React.FC<Props> = ({ bucket, bucketObjects, upd
             onClick={showDeleteModalHandler}
             className="btn btn-outline-danger mr-2">Delete Object
           </button>
+
           <label htmlFor="file-upload" className={`btn btn-outline-primary m-0 ${isLoading ? 'disabled' : ''}`}>
             {
               isLoading &&
@@ -69,6 +71,7 @@ export const BucketDetailsFiles: React.FC<Props> = ({ bucket, bucketObjects, upd
         </div>
       </div>
 
+      {/* Display bucket objects in a table */}
       <BucketObjectsTable
         bucketObjects={bucketObjects}
         checked={checked}

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 
-import { useFetchJson } from '../../../customHooks/useFetchJson';
 import { Bucket, BucketFormData } from '../../../interfaces/interfaces';
 import { fetchPostJson as createBucket } from '../../../services/services';
+import { useFetchJson as fetchBuckets } from '../../../customHooks/useFetchJson';
 import { BucketsTable } from '../../shared/BucketsTable/BucketsTable';
 import { CreateBucketForm } from './CreateBucketForm/CreateBucketForm';
 
@@ -13,7 +13,7 @@ export const Dashboard: React.FC = () => {
   const [createBucketErrorMessage, setCreateBucketErrorMessage] = useState<string | null>(null)
   const [formData, setFormData] = useState<BucketFormData>({ name: '', location: '' })
 
-  useFetchJson((data) => setBuckets(data), shouldFetch, (value) => setShouldFetch(value), 'buckets')
+  fetchBuckets((data) => setBuckets(data), shouldFetch, (value) => setShouldFetch(value), 'buckets')
 
   const onChangeHandler = (e: { target: { name: string, value: string } }) => {
     setFormData({

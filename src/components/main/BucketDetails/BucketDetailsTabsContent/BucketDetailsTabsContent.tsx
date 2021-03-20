@@ -14,6 +14,7 @@ interface Props {
 
 export const BucketDetailsTabsContent: React.FC<Props> = ({ bucket, activeTab, bucketObjects, updateBucketObjects, showDeleteObjectModal }) => {
   if (activeTab === 0) {
+    // Display content for bucket files/objects
     return (
       <BucketDetailsFiles
         bucket={bucket}
@@ -22,6 +23,7 @@ export const BucketDetailsTabsContent: React.FC<Props> = ({ bucket, activeTab, b
         showDeleteObjectModal={showDeleteObjectModal} />
     )
   } else if (activeTab === 1) {
+    // Display content for bucket details
     return (
       <BucketDetailsTab
         bucket={bucket}
