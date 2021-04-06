@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import './App.css';
+import './App.scss';
 
 import { ErrorMessageContext } from './context/ErrorMessageContext';
 import { Navbar } from './components/shared/Navbar/Navbar';
